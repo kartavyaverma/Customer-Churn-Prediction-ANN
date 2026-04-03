@@ -5,8 +5,8 @@ from sklearn.preprocessing import LabelEncoder, StandardScaler,OneHotEncoder
 import pandas as pd
 import pickle
 
-# Load the trained model
-model = tf.keras.models.load_model('model.h5')
+# Load the trained model (compile=False avoids inference-only metric warnings)
+model = tf.keras.models.load_model('model.h5', compile=False)
 
 # Load the label encoder, scaler and one-hot encoder
 with open('label_encoder_gender.pkl', 'rb') as f:
@@ -43,12 +43,17 @@ input_data = pd.DataFrame({
     'EstimatedSalary': [estimated_salary]
 })
 
-# One-hot encode 'Geography'
-geo_encoded = one_hot_encoder.transform([[geography]]).toarray()
+# One-hot encode Geography (DataFrame preserves column name; avoids sklearn UserWarning)
+geo_encoded = one_hot_encoder.transform(
+    pd.DataFrame({'Geography': [geography]})
+).toarray()
 geo_encoded_df = pd.DataFrame(geo_encoded, columns=one_hot_encoder.get_feature_names_out(['Geography']))
 
 # Combine one-hot encoded columns with input data
 input_data = pd.concat([input_data.reset_index(drop=True), geo_encoded_df], axis=1)
+
+# Match column order to training (same as scaler.feature_names_in_)
+input_data = input_data[list(scaler.feature_names_in_)]
 
 # Scale the input data
 input_data = scaler.transform(input_data)
