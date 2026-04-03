@@ -4,30 +4,36 @@ This project is a machine learning web application built with Streamlit that pre
 
 The prediction model uses an Artificial Neural Network (ANN) built with TensorFlow/Keras.
 
+---
+
 ## Features
 
-- **Interactive Web UI:** A user-friendly Streamlit interface to input customer details.
-- **Real-time Prediction:** Instantly predicts the probability of a customer churning.
-- **Data Preprocessing:** Handles categorical data encoding (Label Encoding for Gender, One-Hot Encoding for Geography) and feature scaling.
-- **Deep Learning Model:** Uses a trained Artificial Neural Network (ANN) saved as an `.h5` file.
+* **Interactive Web UI:** A user-friendly Streamlit interface to input customer details.
+* **Real-time Prediction:** Instantly predicts the probability of a customer churning.
+* **Data Preprocessing:** Handles categorical data encoding (Label Encoding for Gender, One-Hot Encoding for Geography) and feature scaling.
+* **Deep Learning Model:** Uses a trained Artificial Neural Network (ANN) saved as an `.h5` file.
+
+---
 
 ## Technologies Used
 
-- **Python 3.10–3.13** (TensorFlow 2.21 does not provide installable wheels for Python 3.14 yet)
-- **Streamlit:** For the web application frontend and backend.
-- **TensorFlow & Keras:** For the Artificial Neural Network model.
-- **Scikit-Learn:** For data preprocessing (StandardScaler, LabelEncoder, OneHotEncoder).
-- **Pandas & NumPy:** For data manipulation and arrays.
+* **Python 3.10–3.13**
+* **Streamlit:** For the web application frontend and backend.
+* **TensorFlow & Keras:** For the Artificial Neural Network model.
+* **Scikit-Learn:** For data preprocessing (StandardScaler, LabelEncoder, OneHotEncoder).
+* **Pandas & NumPy:** For data manipulation and arrays.
+
+---
 
 ## Installation and Setup
 
-Clone the repository (if applicable) or navigate to the project directory:
+Clone the repository or navigate to the project directory:
 
 ```bash
 cd "Customer-Churn Prediction"
 ```
 
-Create a virtual environment (recommended):
+Create a virtual environment:
 
 ```bash
 python -m venv venv
@@ -35,73 +41,105 @@ python -m venv venv
 
 Activate the virtual environment:
 
-**On Windows:**
+**Windows:**
 
 ```bash
 .\venv\Scripts\activate
 ```
 
-**On macOS/Linux:**
+**macOS/Linux:**
 
 ```bash
 source venv/bin/activate
 ```
 
-Install the required dependencies:
+Install dependencies:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-If you do not have a `requirements.txt`, you can install the main packages using:
-
-```bash
-pip install streamlit numpy pandas scikit-learn tensorflow
-```
+---
 
 ## Usage
 
-To run the Streamlit application locally, run the following command in your terminal while the virtual environment is active:
+Run the Streamlit app:
 
 ```bash
 streamlit run app.py
 ```
 
-This starts a local web server and opens the application in your default web browser (usually at `http://localhost:8501`).
+Open in browser:
 
-## Deploying on Streamlit Community Cloud (share.streamlit.io)
+```
+http://localhost:8501
+```
 
-If dependency installation fails with messages like “no wheels with a matching Python ABI” or “No matching distribution found for tensorflow”, the host is almost certainly using **Python 3.14**. TensorFlow 2.21 is built for **Python 3.10 through 3.13** only, so `pip` cannot install it on 3.14.
+---
 
-**Fix:** When you deploy (or redeploy) the app, open **Advanced settings**, set **Python version** to **3.12** or **3.13**, then save and deploy. You cannot change the Python version after deployment without deleting the app and creating it again with the correct version. Copy your secrets if you use them, then redeploy with the same repository and entrypoint (`app.py`).
+## Deployment (Streamlit Cloud)
 
-Ensure `model.h5` and the `.pkl` files are committed to the repository; the cloud clone must contain them next to `app.py`.
+If you get TensorFlow errors like:
+
+* *No matching distribution found*
+* *No wheels available*
+
+👉 Set Python version to:
+
+```
+3.12 or 3.13
+```
+
+Ensure these files are present in repo:
+
+* `model.h5`
+* `.pkl` files
+
+---
 
 ## Project Files
 
-| File | Description |
-|------|-------------|
-| `app.py` | The main Streamlit web application script. |
-| `model.h5` | The trained Artificial Neural Network model. |
-| `scaler.pkl` | The saved StandardScaler object used to normalize numerical input features. |
-| `label_encoder_gender.pkl` | The saved LabelEncoder object for the `Gender` column. |
-| `onehot_encoder_geo.pkl` | The saved OneHotEncoder object for the `Geography` column. |
+| File                       | Description                        |
+| -------------------------- | ---------------------------------- |
+| `app.py`                   | Main Streamlit application         |
+| `model.h5`                 | Trained ANN model                  |
+| `scaler.pkl`               | StandardScaler for feature scaling |
+| `label_encoder_gender.pkl` | LabelEncoder for Gender            |
+| `onehot_encoder_geo.pkl`   | OneHotEncoder for Geography        |
+| `experiments.ipynb`        | Model training notebook            |
+| `prediction.ipynb`         | Testing predictions                |
+| `requirements.txt`         | Dependencies                       |
+
+---
 
 ## Input Parameters
 
-The application takes the following customer details to make a prediction:
+| Parameter          | Description                      |
+| ------------------ | -------------------------------- |
+| Geography          | Country (France, Spain, Germany) |
+| Gender             | Male or Female                   |
+| Age                | Customer age                     |
+| Balance            | Account balance                  |
+| Credit Score       | Credit score                     |
+| Estimated Salary   | Annual salary                    |
+| Tenure             | Years with bank                  |
+| Number of Products | Bank products used               |
+| Has Credit Card    | 1 = Yes, 0 = No                  |
+| Is Active Member   | 1 = Yes, 0 = No                  |
 
-| Parameter | Description |
-|-----------|-------------|
-| **Geography** | Country of the customer (e.g., France, Spain, Germany). |
-| **Gender** | Male or Female. |
-| **Age** | Age of the customer. |
-| **Balance** | Current account balance. |
-| **Credit Score** | Customer's credit score. |
-| **Estimated Salary** | Customer's estimated annual salary. |
-| **Tenure** | Number of years the customer has been with the bank. |
-| **Number of Products** | Number of bank products the customer uses. |
-| **Has Credit Card** | Whether the customer has a credit card (1 = Yes, 0 = No). |
-| **Is Active Member** | Whether the customer is an active member (1 = Yes, 0 = No). |
+---
 
-**Prediction rule:** The model outputs a churn probability between 0 and 1. Values above 0.5 are interpreted as likely to churn; values at or below 0.5 as unlikely to churn.
+## Prediction Logic
+
+* Model outputs probability (0 → 1)
+* **> 0.5 → Churn**
+* **≤ 0.5 → Not churn**
+
+---
+
+## Notes
+
+* Logs and unnecessary files are excluded using `.gitignore`
+* Model and preprocessing artifacts are saved for reproducibility
+
+---
