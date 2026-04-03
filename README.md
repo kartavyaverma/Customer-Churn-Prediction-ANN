@@ -86,7 +86,6 @@ Ensure `model.h5` and the `.pkl` files are committed to the repository; the clou
 | `scaler.pkl` | The saved StandardScaler object used to normalize numerical input features. |
 | `label_encoder_gender.pkl` | The saved LabelEncoder object for the `Gender` column. |
 | `onehot_encoder_geo.pkl` | The saved OneHotEncoder object for the `Geography` column. |
-| `hyperparametertuningann.ipynb` | Jupyter notebook containing the code used for hyperparameter tuning and model training. |
 
 ## Input Parameters
 
