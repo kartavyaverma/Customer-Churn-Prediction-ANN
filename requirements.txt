@@ -1,0 +1,9 @@
+# TensorFlow publishes wheels for Python 3.10–3.13 only (not 3.14+).
+# Streamlit Community Cloud: use Advanced settings and pick Python 3.12 or 3.13 before deploy.
+tensorflow==2.21.0
+pandas
+numpy
+scikit-learn
+matplotlib
+tensorboard
+streamlit
